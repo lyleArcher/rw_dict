@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>load file</title>
+</head>
+<body>
+<h1>upload file</h1>
+<form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="*">
+    <input type="submit" value="upload">
+</form>
+<div id="message"></div>
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById('message').innerHTML = JSON.parse(xhr.response).message;
+            } else {
+                document.getElementById('message').innerHTML = "file up load fail";
+            }
+        };
+        xhr.send(formData);
+    });
+</script>
+</body>
+</html>
